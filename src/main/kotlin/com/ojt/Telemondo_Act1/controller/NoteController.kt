@@ -9,38 +9,38 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
 @RestController
-open class NoteController (@Autowired private val noteService : NoteService) {
-    @GetMapping("/")
+class NoteController (@Autowired private val noteService : NoteService) {
+    @GetMapping("/api/notes")
+    fun getNotes(): List<Note> {
+        return noteService.getAllNotes()
+    }
+
+    @GetMapping("/api/notes/summary")
     fun index(@RequestParam limit: Int = 5): List<Any>{
         // Show the last 5 notes by default
         return noteService.getNoteSummary(limit)
     }
 
-    @GetMapping("/notes")
-    fun getNotes(@RequestParam note : String = ""): List<Note> {
-        // Must return notes with all details
-        return noteService.getAllNotes()
+    data class PostNoteDTO(val user: String, val data: String) {
     }
-
-    data class PostBody(val username: String, val content: String)
-
-    @PostMapping("/notes")
-    fun setNote(@RequestBody body : PostBody): ResponseEntity<Any> {
+    @PostMapping("/api/notes")
+    fun setNote(@RequestBody body : PostNoteDTO): ResponseEntity<Any> {
         return ResponseEntity.status(HttpStatus.OK).body(noteService.createNote(body))
     }
 
-    @PutMapping("/notes/{id}")
-    fun updateNote(@PathVariable id : Long, @RequestBody body : Note): ResponseEntity<Unit> {
+    data class PutNoteDTO(val id: Long, val user: String, val data: String)
+    @PutMapping("/api/notes")
+    fun updateNote(@RequestBody body : PutNoteDTO): ResponseEntity<Any> {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                .body(noteService.updateNote(id, body))
+                .body(noteService.updateNote(body))
         }catch (e : Exception){
             throw ResponseStatusException(HttpStatus.BAD_REQUEST,
                 "Input is not in valid format")
         }
     }
 
-    @DeleteMapping("/notes/{id}")
+    @DeleteMapping("/api/notes/{id}")
     fun deleteNote(@PathVariable id : Long): ResponseEntity<String> {
         try {
             noteService.deleteNote(id)

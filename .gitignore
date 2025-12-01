@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### CUSTOM ###
+*.env
+flyway.conf
+/php-make
+create.sql

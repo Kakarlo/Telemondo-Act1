@@ -1,28 +1,21 @@
 package com.ojt.Telemondo_Act1.model
 
-import com.fasterxml.jackson.annotation.JsonFormat
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Table
-import org.springframework.format.annotation.DateTimeFormat
-import java.time.LocalDateTime
+import jakarta.persistence.*
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
+import java.time.Instant
 
 @Entity
-@Table(name = "Notes")
-open class Note (
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+@Table(name = "notes")
+class Note (
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
     var username: String = "",
     var content: String = "",
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "createdAt")
-    var createdAt: LocalDateTime = LocalDateTime.now(),
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @CreationTimestamp
+    @Column(name = "createdAt", updatable = false)
+    var createdAt: Instant? = null,
+    @UpdateTimestamp
     @Column(name = "updatedAt")
-    var updatedAt: LocalDateTime = LocalDateTime.now(),
+    var updatedAt: Instant? = null,
 )
