@@ -3,7 +3,7 @@ services:
   mysql:
     container_name: mysql_container
     image: mysql:9.5
-    restart: unless-stopped
+    restart: always
     env_file: ./.env
     environment:
       - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
