@@ -1,6 +1,7 @@
 package com.ojt.Telemondo_Act1.service
 
-import com.ojt.Telemondo_Act1.controller.NoteController
+import com.ojt.Telemondo_Act1.dto.PostNoteDTO
+import com.ojt.Telemondo_Act1.dto.PutNoteDTO
 import com.ojt.Telemondo_Act1.mapper.NoteMapper
 import com.ojt.Telemondo_Act1.model.Note
 import com.ojt.Telemondo_Act1.repo.NoteRepository
@@ -18,9 +19,9 @@ class NoteService(
 
     fun getNoteSummary(limit: Int): List<Any> = noteRepo.getNoteSummary(limit)
 
-    fun getNoteById(id: Long) = noteRepo.findById(id)
+    fun getNoteCount() = noteRepo.count()
 
-    fun createNote(body: NoteController.PostNoteDTO): Note {
+    fun createNote(body: PostNoteDTO): Note {
         if (body.user.isEmpty()) {
             throw Exception("User is empty")
         }
@@ -28,7 +29,7 @@ class NoteService(
         return noteRepo.save(note)
     }
 
-    fun updateNote(body: NoteController.PutNoteDTO): Note {
+    fun updateNote(body: PutNoteDTO): Note {
         // verify later
         val verify = noteRepo.findByIdOrNull(body.id) ?: throw Exception("Note does not exist")
         val note = noteMapper.putNoteDTOToNote(body, verify)

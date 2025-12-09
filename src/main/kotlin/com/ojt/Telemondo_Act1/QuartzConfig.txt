@@ -1,0 +1,24 @@
+package com.ojt.Telemondo_Act1
+
+import org.quartz.Scheduler
+import org.springframework.boot.CommandLineRunner
+import org.springframework.stereotype.Component
+
+// Not sure if needed
+
+@Component
+class `QuartzConfig.txt`(
+    private val scheduler: Scheduler    // <-- Spring injects the MySQL-backed scheduler
+) : CommandLineRunner {
+
+    override fun run(vararg args: String) {
+        if (!scheduler.isStarted) {
+            scheduler.start()
+            scheduler.clear()
+            println("Quartz Scheduler started successfully!")
+        }
+//        scheduler.start()
+//        scheduler.clear()
+//        scheduler.shutdown()
+    }
+}

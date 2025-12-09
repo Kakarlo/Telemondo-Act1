@@ -1,6 +1,7 @@
 package com.ojt.Telemondo_Act1.mapper
 
-import com.ojt.Telemondo_Act1.controller.NoteController
+import com.ojt.Telemondo_Act1.dto.PostNoteDTO
+import com.ojt.Telemondo_Act1.dto.PutNoteDTO
 import com.ojt.Telemondo_Act1.model.Note
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
@@ -12,17 +13,17 @@ interface NoteMapper {
 
     @Mapping(source = "username", target = "user")
     @Mapping(source = "content", target = "data")
-    fun noteToPostNoteDTO(note: Note): NoteController.PostNoteDTO
+    fun noteToPostNoteDTO(note: Note): PostNoteDTO
 
     @Mapping(source = "user", target = "username")
     @Mapping(source = "data", target = "content")
-    fun postNoteDTOToNote(postNoteDTO: NoteController.PostNoteDTO): Note
+    fun postNoteDTOToNote(postNoteDTO: PostNoteDTO): Note
 
     @Mapping(source = "username", target = "user")
     @Mapping(source = "content", target = "data")
-    fun noteToPutNoteDTO(note: Note): NoteController.PutNoteDTO
+    fun noteToPutNoteDTO(note: Note): PutNoteDTO
 
     @Mapping(source = "user", target = "username")
     @Mapping(source = "data", target = "content")
-    fun putNoteDTOToNote(postNoteDTO: NoteController.PutNoteDTO, @MappingTarget note: Note): Note
+    fun putNoteDTOToNote(postNoteDTO: PutNoteDTO, @MappingTarget note: Note): Note
 }

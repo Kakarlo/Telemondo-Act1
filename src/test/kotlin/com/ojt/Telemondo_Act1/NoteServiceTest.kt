@@ -1,7 +1,8 @@
 package com.ojt.Telemondo_Act1
 
 import com.github.database.rider.core.api.dataset.DataSet
-import com.ojt.Telemondo_Act1.controller.NoteController
+import com.ojt.Telemondo_Act1.dto.PostNoteDTO
+import com.ojt.Telemondo_Act1.dto.PutNoteDTO
 import com.ojt.Telemondo_Act1.service.NoteService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -16,7 +17,7 @@ class NoteServiceTest @Autowired constructor(private val noteService: NoteServic
 
     @Test
     fun testCreateNote() {
-        val data = NoteController.PostNoteDTO(user = "Test", data = "First Note")
+        val data = PostNoteDTO(user = "Test", data = "First Note")
         val note = noteService.createNote(data)
 
         assertEquals("Test", note.username)
@@ -26,7 +27,7 @@ class NoteServiceTest @Autowired constructor(private val noteService: NoteServic
 
     @Test
     fun testUpdateNote() {
-        val data = NoteController.PutNoteDTO(id = 5, user = "Test", data = "Edited Note")
+        val data = PutNoteDTO(id = 5, user = "Test", data = "Edited Note")
         val note = noteService.updateNote(data)
 
         assertEquals("Test", note.username)
