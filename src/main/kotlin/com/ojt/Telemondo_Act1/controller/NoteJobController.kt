@@ -7,6 +7,7 @@ import java.time.LocalDateTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
@@ -44,7 +45,7 @@ class NoteJobController(@Autowired private val noteJobService: NoteJobService) {
     }
 
     @DeleteMapping("/{id}")
-    fun deleteNote(@PathVariable id: Long, @RequestParam delay: Int): ResponseEntity<String> {
+    fun deleteNote(@PathVariable id: String, @RequestParam delay: Int): ResponseEntity<String> {
         try {
             println("deleteNoteDelayed() started:${LocalDateTime.now()}")
             noteJobService.deleteNoteDelayed(id, delay)

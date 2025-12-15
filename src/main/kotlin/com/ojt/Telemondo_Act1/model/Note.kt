@@ -1,16 +1,21 @@
 package com.ojt.Telemondo_Act1.model
 
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import jakarta.validation.constraints.NotNull
-import java.time.Instant
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
+import org.hibernate.annotations.UuidGenerator
+import java.time.Instant
+import java.util.*
 
 @Entity
 @Table(name = "notes")
 class Note(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+    @Id @UuidGenerator(style = UuidGenerator.Style.VERSION_7)
+    var id: UUID? = null,
     @NotNull
     var username: String = "",
     var content: String? = "",

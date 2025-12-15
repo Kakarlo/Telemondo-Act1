@@ -1,13 +1,13 @@
 package com.ojt.Telemondo_Act1.service
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.luigivismara.shortuuid.ShortUuid
 import com.ojt.Telemondo_Act1.dto.PostNoteDTO
 import com.ojt.Telemondo_Act1.dto.PutNoteDTO
 import com.ojt.Telemondo_Act1.job.CreateNoteJob
 import com.ojt.Telemondo_Act1.job.DeleteNoteJob
 import com.ojt.Telemondo_Act1.job.GetNoteJob
 import com.ojt.Telemondo_Act1.job.UpdateNoteJob
-import com.ojt.Telemondo_Act1.mapper.NoteMapper
 import com.ojt.Telemondo_Act1.repo.NoteRepository
 import org.quartz.*
 import org.quartz.DateBuilder.futureDate
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service
 @Service
 class NoteJobService(
     @Autowired private val scheduler: Scheduler,
-    @Autowired private val noteMapper: NoteMapper,
     @Autowired private val noteRepo: NoteRepository,
 ) {
 
@@ -139,7 +138,9 @@ class NoteJobService(
 
     fun updateNoteDelayed(body: PutNoteDTO) {
         // verify later
-        val verify = noteRepo.findByIdOrNull(body.id) ?: throw Exception("Note does not exist")
+        val verify =
+            noteRepo.findByIdOrNull(ShortUuid.decode(body.id))
+                ?: throw Exception("Note does not exist")
 
         val jobName = "updateNote-job"
         val jobGroup = "NOTES"
@@ -160,7 +161,7 @@ class NoteJobService(
         scheduler.scheduleJob(jobDetail, trigger)
     }
 
-    fun deleteNoteDelayed(id: Long, delay: Int) {
+    fun deleteNoteDelayed(id: String, delay: Int) {
         val jobName = "deleteNote-job"
         val jobGroup = "NOTES"
 

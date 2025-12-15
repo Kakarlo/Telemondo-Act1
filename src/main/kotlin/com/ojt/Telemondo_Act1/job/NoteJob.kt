@@ -47,7 +47,7 @@ class UpdateNoteJob(@Autowired val noteService: NoteService) : Job {
 @Component
 class DeleteNoteJob(@Autowired val noteService: NoteService) : Job {
     override fun execute(context: JobExecutionContext) {
-        val id = context.mergedJobDataMap["id"] as Long
+        val id = context.mergedJobDataMap["id"] as String
         noteService.deleteNote(id)
         println("Deleting entity id=${id}")
         println("deleteNoteDelayed() ended:${LocalDateTime.now()}")

@@ -39,7 +39,7 @@ class NoteController(@Autowired private val noteService: NoteService) {
     }
 
     @DeleteMapping("/{id}")
-    fun deleteNote(@PathVariable id: Long): ResponseEntity<String> {
+    fun deleteNote(@PathVariable id: String): ResponseEntity<String> {
         try {
             noteService.deleteNote(id)
         } catch (e: Exception) {
